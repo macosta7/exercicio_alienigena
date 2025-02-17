@@ -43,6 +43,12 @@
         var alien;
         //criando a variavel do teclado
         var teclado;
+        //criando a variavel do turbo
+        var fogo;
+        //criando a variavel da plataforma
+        var plataforma;
+        //cria a variavel da moeda
+        var moeda;
 
         function preload() {
             //carrega a imagem do fundo
@@ -50,11 +56,25 @@
 
             //carrega a imagem do alienigena
             this.load.image('player', 'assets/alienigena.png');
+
+            //carrega a imagem do turbo
+            this.load.image('turbo', 'assets/turbo.png');
+
+            //carrega a imagem da platafroam
+            this.load.image('plataforma', 'assets/tijolos.png');
+
+            //carrega a imagem da moeda
+            this.load.image('moeda', 'assets/moeda.png');
         }
 
         function create() {
             // o que acontece aqui?
             this.add.image(larguraJogo/2, alturaJogo/2, 'background');
+
+            //adicionando o foguinho do turbo
+            fogo = this.add.sprite(0, 0, 'turbo');
+            //deixando o fogo invisivel para controlar a aparição dele depois
+            fogo.setVisible(false);
 
             //cria e alienigena na metade do eixo x e no y=0
             alien = this.physics.add.sprite(larguraJogo/2, 0, 'player');
@@ -62,6 +82,14 @@
 
             //permitindo usar as setas do teclado
             teclado = this.input.keyboard.createCursorKeys();
+
+            //adiciona a plataforma
+            plataforma = this.physics.add.staticImage(larguraJogo/2, alturaJogo/2, 'plataforma');
+            //cria a barreira entra o alien e a platafroma
+            this.physics.add.collider(alien, plataforma);
+
+            //cria a moeda
+            moeda = this.physics.add.sprite()
         }
 
         function update() {
@@ -77,13 +105,23 @@
             else {
                 alien.setVelocityX(0);
             }
-
+            //movimentando para cima
             if (teclado.up.isDown) {
                 alien.setVelocityY(-150);
+                ativarTurbo();
             }
             else{
-
+                semTurbo();
             }
+
+            fogo.setPosition(alien.x, alien.y + alien.height/2);
+        }
+
+        function ativarTurbo() {
+            fogo.setVisible(true);
+        }
+        function semTurbo() {
+            fogo.setVisible(false);
         }
     </script>
 </body>
