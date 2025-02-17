@@ -24,7 +24,8 @@
             physics: {
                 default: 'arcade',
                 arcade: {
-                    gravity: { y: 300 }
+                    gravity: { y: 300 },
+                    debug: true
                 }
             },
 
@@ -40,6 +41,8 @@
 
         //criando a variavel do personagem
         var alien;
+        //criando a variavel do teclado
+        var teclado;
 
         function preload() {
             //carrega a imagem do fundo
@@ -55,9 +58,32 @@
 
             //cria e alienigena na metade do eixo x e no y=0
             alien = this.physics.add.sprite(larguraJogo/2, 0, 'player');
+            alien.setCollideWorldBounds(true);
+
+            //permitindo usar as setas do teclado
+            teclado = this.input.keyboard.createCursorKeys();
         }
 
         function update() {
+            //movimentando para a esquerda
+            if (teclado.left.isDown) {
+                alien.setVelocityX(-150);
+            }
+            //movimentando para a direita
+            else if (teclado.right.isDown) {
+                alien.setVelocityX(150);
+            }
+            //sem movimento, ficar parado
+            else {
+                alien.setVelocityX(0);
+            }
+
+            if (teclado.up.isDown) {
+                alien.setVelocityY(-150);
+            }
+            else{
+
+            }
         }
     </script>
 </body>
