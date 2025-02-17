@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício do Alien</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+    <style> body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } </style>
+</head>
+
+<body>
+    <script>
+        // criando variáveis para a largura e altura do jogo e definindo o tamanho delas
+        const larguraJogo = 700;
+        const alturaJogo = 850;
+
+        // o que essa parte faz?
+        const config = {
+            type: Phaser.AUTO,
+            width: larguraJogo,
+            height: alturaJogo,
+
+            //ativando a física do jogo
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: { y: 300 }
+                }
+            },
+
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            }
+        };
+
+        // o que acontece aqui?
+        const game = new Phaser.Game(config);
+
+        //criando a variavel do personagem
+        var alien;
+
+        function preload() {
+            //carrega a imagem do fundo
+            this.load.image('background', 'assets/bg.png');
+
+            //carrega a imagem do alienigena
+            this.load.image('player', 'assets/alienigena.png');
+        }
+
+        function create() {
+            // o que acontece aqui?
+            this.add.image(larguraJogo/2, alturaJogo/2, 'background');
+
+            //cria e alienigena na metade do eixo x e no y=0
+            alien = this.physics.add.sprite(larguraJogo/2, 0, 'player');
+        }
+
+        function update() {
+        }
+    </script>
+</body>
+</html>
