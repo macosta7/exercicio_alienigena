@@ -10,11 +10,11 @@
 
 <body>
     <script>
-        // cria variáveis para a largura e altura do jogo e definindo o tamanho delas
+        //cria variáveis para a largura e altura do jogo e definindo o tamanho delas
         const larguraJogo = 700;
         const alturaJogo = 850;
 
-        // o que essa parte faz?
+        //configura as propriedades básicas do jogo
         const config = {
             type: Phaser.AUTO,
             width: larguraJogo,
@@ -36,7 +36,7 @@
             }
         };
 
-        // o que acontece aqui?
+        //inicializa um novo jogo no Phaser com as configurações definidas em config
         const game = new Phaser.Game(config);
 
         //criando a variavel do personagem
@@ -64,15 +64,17 @@
             //carrega a imagem do turbo
             this.load.image('turbo', 'assets/turbo.png');
 
-            //carrega a imagem da platafroam
+            //carrega as imagens das plataformas
             this.load.image('plataforma', 'assets/tijolos.png');
+            this.load.image('plataforma2', 'assets/tijolos.png');
+            this.load.image('plataforma3', 'assets/tijolos.png');
 
             //carrega a imagem da moeda
             this.load.image('moeda', 'assets/moeda.png');
         }
 
         function create() {
-            // o que acontece aqui?
+            //adiciona a imagem de fundo e coloca ela na metade da tela
             this.add.image(larguraJogo/2, alturaJogo/2, 'background');
 
             //adiciona o foguinho do turbo
@@ -80,23 +82,28 @@
             //deixa o fogo invisivel para controlar a aparição dele depois
             fogo.setVisible(false);
 
-            //cria e alienigena na metade do eixo x e no y=0
+            //cria o alienigena na metade do eixo x e no y=0
             alien = this.physics.add.sprite(larguraJogo/2, 0, 'player');
             alien.setCollideWorldBounds(true);
 
             //permite usar as setas do teclado
             teclado = this.input.keyboard.createCursorKeys();
 
-            //adiciona a plataforma
-            plataforma = this.physics.add.staticImage(larguraJogo/2, alturaJogo/2, 'plataforma');
-            //cria a barreira entra o alien e a platafroma
-            this.physics.add.collider(alien, plataforma);
+            //adiciona as plataformas
+            plataforma = this.physics.add.staticImage(larguraJogo/1.3, alturaJogo/4.5, 'plataforma');
+            this.physics.add.collider(alien, plataforma); //cria a barreira entra o alien e a platafroma
+            plataforma2 = this.physics.add.staticImage(larguraJogo/4.5, alturaJogo/2.5, 'plataforma2');
+            this.physics.add.collider(alien, plataforma2);
+            plataforma3 = this.physics.add.staticImage(larguraJogo/2, alturaJogo/1.4, 'plataforma3');
+            this.physics.add.collider(alien, plataforma3);
 
             //cria a moeda
             moeda = this.physics.add.sprite(larguraJogo/2, 0, 'moeda');
-            moeda.setCollideWorldBounds(true);
+            moeda.setCollideWorldBounds(true); //colisão entre a moeda e as bordas do mapa
             moeda.setBounce(0.7);
-            this.physics.add.collider(moeda, plataforma);
+            this.physics.add.collider(moeda, plataforma); //colisão entre a moeda e a plataforma
+            this.physics.add.collider(moeda, plataforma2);
+            this.physics.add.collider(moeda, plataforma3);
 
             //adiciona placar 
             placar = this.add.text(50, 50, 'Moedas:' + pontuacao, {fontSize:'45px', fill:'#495613'});
@@ -128,20 +135,20 @@
             //movimenta para cima
             if (teclado.up.isDown) {
                 alien.setVelocityY(-150);
-                ativarTurbo();
+                ativarTurbo(); //ativa o turbo, ele aparece
             }
             else{
-                semTurbo();
+                semTurbo(); //se não movimenta para cima, não tem turbo
             }
 
-            fogo.setPosition(alien.x, alien.y + alien.height/2);
+            fogo.setPosition(alien.x, alien.y + alien.height/2); //posição do turbo em relação ao alien
         }
 
         function ativarTurbo() {
-            fogo.setVisible(true);
+            fogo.setVisible(true); //foguinho ativado, turbo aparece
         }
         function semTurbo() {
-            fogo.setVisible(false);
+            fogo.setVisible(false); //não aparece o turbo
         }
     </script>
 </body>
